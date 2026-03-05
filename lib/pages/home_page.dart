@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ujikom_zaidan_arz_arkham_kny/pages/berita_page.dart';
+import 'package:ujikom_zaidan_arz_arkham_kny/pages/prestasi_page.dart';
+import 'package:ujikom_zaidan_arz_arkham_kny/pages/visi_misi_page.dart';
+
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -14,8 +19,17 @@ class HomePage extends StatelessWidget {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 60),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Color(0xFF243A5E),
+                image: DecorationImage(
+      image: AssetImage('gambar paling atas.png'), // Nama file background kamu
+      fit: BoxFit.cover, // Supaya gambar menutupi seluruh area Hero
+      colorFilter: ColorFilter.mode(
+        Colors.black.withOpacity(0.5), // Angka 0.5 untuk tingkat kegelapan (0.0 - 1.0)
+        BlendMode.darken,
+      ),
+    ),
+
               ),
               child: LayoutBuilder(
                 builder: (context, constraints) {
@@ -24,6 +38,111 @@ class HomePage extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      /// ================= NAVBAR =================
+                      Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+
+    /// 
+    /// LOGO
+Image.asset(
+  "assets/Briseis logo.png", // Ganti dengan path file logomu
+  height: 40,        // Sesuaikan tinggi logo agar pas dengan navbar
+  fit: BoxFit.contain,
+),
+
+    /// ================= DESKTOP MENU =================
+    if (!isMobile)
+      Row(
+        children: [
+
+          _navItem(
+            "Beranda",
+            true,
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const HomePage()),
+              );
+            },
+          ),
+
+          _navItem(
+            "Visi & Misi",
+            false,
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const VisiMisiPage()),
+              );
+            },
+          ),
+
+          _navItem(
+            "Berita & Pengumuman",
+            false,
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const BeritaPage()),
+              );
+            },
+          ),
+
+          _navItem(
+            "Prestasi",
+            false,
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const PrestasiPage()),
+              );
+            },
+          ),
+        ],
+      ),
+
+    /// ================= MOBILE MENU =================
+    if (isMobile)
+      PopupMenuButton<int>(
+        icon: const Icon(Icons.menu, color: Colors.white),
+        onSelected: (value) {
+          if (value == 0) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const HomePage()),
+            );
+          }
+          if (value == 1) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const VisiMisiPage()),
+            );
+          }
+          if (value == 2) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const BeritaPage()),
+            );
+          }
+          if (value == 3) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const PrestasiPage()),
+            );
+          }
+        },
+        itemBuilder: (context) => const [
+          PopupMenuItem(value: 0, child: Text("Beranda")),
+          PopupMenuItem(value: 1, child: Text("Visi & Misi")),
+          PopupMenuItem(value: 2, child: Text("Berita & Pengumuman")),
+          PopupMenuItem(value: 3, child: Text("Prestasi")),
+        ],
+      ),
+  ],
+),
+
+                      const SizedBox(height: 50),
                       const Text(
                         'MEMPERLUAS WAWASAN\n& MEMBANGUN KARAKTER',
                         style: TextStyle(
@@ -82,48 +201,138 @@ class HomePage extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // ================= WHY BIS =================
+// ================= WHY BIS =================
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 60),
               child: LayoutBuilder(
                 builder: (context, constraints) {
-                  final isMobile = constraints.maxWidth < 800;
+                  final isMobile = constraints.maxWidth < 900;
 
-                  return Flex(
+                  return IntrinsicHeight(
+  child: Flex(
                     direction: isMobile ? Axis.vertical : Axis.horizontal,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      // SISI KIRI: TEKS INFORMASI
                       Expanded(
+                        flex: isMobile ? 0 : 1,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Mengapa BIS Merupakan\nPilihan Terbaik sebagai\nSekolah Internasional?',
+                          children: [
+                            const Text(
+                              'Mengapa BIS Merupakan Pilihan Terbaik?',
                               style: TextStyle(
-                                fontSize: 26,
+                                fontSize: 32,
                                 fontWeight: FontWeight.bold,
+                                color: Color(0xFF243A5E),
                               ),
                             ),
-                            SizedBox(height: 16),
-                            Text(
-                              'BIS menekankan pendidikan berkualitas, '
-                              'tidak hanya akademik tetapi juga karakter.',
-                              style: TextStyle(fontSize: 16),
+                            const SizedBox(height: 20),
+                            const Text(
+                              'Briseis International School (BIS) bukan sekadar tempat belajar, '
+                              'tetapi ekosistem pertumbuhan karakter. Kami menggabungkan standar '
+                              'akademik global dengan pengembangan etika dan kepemimpinan. '
+                              'Dengan rasio guru dan siswa yang terjaga, setiap individu mendapatkan '
+                              'perhatian personal untuk memaksimalkan potensi unik mereka dalam '
+                              'lingkungan yang suportif dan modern.',
+                              style: TextStyle(fontSize: 16, height: 1.6, color: Colors.black87),
+                            ),
+                            const SizedBox(height: 30),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF8B1E2D),
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              ),
+                              child: const Text('Pelajari Lebih Lanjut', style: TextStyle(color: Colors.white)),
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(width: 40, height: 40),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF8B1E2D),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 28,
-                            vertical: 14,
-                          ),
+                      
+                      if (!isMobile) const SizedBox(width: 60), // Spasi antar teks dan gambar
+                      if (isMobile) const SizedBox(height: 40),
+
+                      // SISI KANAN: GAMBAR
+                      // SISI KANAN: GAMBAR
+Expanded(
+  flex: isMobile ? 0 : 1,
+  child: IntrinsicHeight(
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: SizedBox(
+        height: double.infinity,
+        child: Image.asset(
+          'assets/ini gambar yang kenapa BIS.png',
+          fit: BoxFit.cover,
+        ),
+      ),
+    ),
+  ),
+),
+                    ],
+                  ),
+                  );
+                },
+              ),
+            ),
+
+// ================= KURIKULUM =================
+            Container(
+              width: double.infinity,
+              color: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final isMobile = constraints.maxWidth < 900;
+
+                  return Flex(
+                    direction: isMobile ? Axis.vertical : Axis.horizontal,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // SISI KIRI: GAMBAR (MUNCUL DI ATAS PADA MOBILE)
+                      // SISI KIRI: GAMBAR
+Expanded(
+  flex: isMobile ? 0 : 1,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(20),
+    child: Image.asset( // <--- GANTI JADI Image.asset
+      'assets/kalo ini yang Kurikulum.png', // <--- TAMBAHKAN assets/
+      fit: BoxFit.cover,
+    ),
+  ),
+),
+
+                      if (!isMobile) const SizedBox(width: 60),
+                      if (isMobile) const SizedBox(height: 40),
+
+                      // SISI KANAN: TEKS INFORMASI KURIKULUM
+                      Expanded(
+                        flex: isMobile ? 0 : 1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'Kurikulum Internasional Cambridge',
+                              style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF243A5E),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              'Kami menerapkan Kurikulum Cambridge Assessment International Education '
+                              'secara komprehensif mulai dari Primary hingga A Level. Kurikulum ini '
+                              'dirancang untuk membentuk siswa yang percaya diri, bertanggung jawab, '
+                              'reflektif, inovatif, dan terlibat aktif.\n\n'
+                              'Dengan sertifikasi yang diakui dunia, siswa BIS memiliki jalur karir '
+                              'akademik yang luas menuju universitas-universitas terbaik di seluruh dunia.',
+                              style: TextStyle(fontSize: 16, height: 1.6, color: Colors.black87),
+                            ),
+                          ],
                         ),
-                        child: const Text('Selanjutnya'),
                       ),
                     ],
                   );
@@ -131,32 +340,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            // ================= KURIKULUM =================
-            Container(
-              width: double.infinity,
-              color: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 50),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Kurikulum BIS',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    'BIS menerapkan Kurikulum Cambridge '
-                    'dari Primary hingga A Level.',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-
-            // ================= BERITA =================
+// ================= BERITA & ACARA (LOGIC BY PROGRAMMER 2) =================
             Container(
               width: double.infinity,
               color: const Color(0xFF1F2F4D),
@@ -165,22 +349,29 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Berita & Acara',
+                    'Berita & Pengumuman Terkini',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  Wrap(
-                    spacing: 20,
-                    runSpacing: 20,
-                    children: [
-                      _newsCard('Apa Itu Fotosintesis?'),
-                      _newsCard('Strict Parents Pada Anak'),
-                    ],
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Update terbaru mengenai aktivitas dan informasi sekolah.',
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
                   ),
+                  const SizedBox(height: 32),
+                  
+                  // Wrap ini otomatis mengambil data dari list allNews
+                  // Cari bagian Wrap Berita & Acara, lalu ubah jadi ini:
+Wrap(
+  spacing: 20,
+  runSpacing: 20,
+  children: allNews.map((item) { // Ubah '(data Berita)' jadi '(item)'
+    return _newsCard(context, item); // Ubah 'Berita' jadi 'item'
+  }).toList(),
+),
                 ],
               ),
             ),
@@ -228,6 +419,28 @@ class HomePage extends StatelessWidget {
     );
   }
 
+    /// ================= NAV ITEM =================
+  Widget _navItem(String text, bool active, {VoidCallback? onTap})
+{
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(left: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+        color: active ? const Color(0xFF8B1E2D) : Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: active ? FontWeight.bold : FontWeight.normal,
+        ),
+      ),)
+    );
+  }
+
   // ================= COMPONENTS =================
 
   List<Widget> _buttons() => [
@@ -257,16 +470,24 @@ class HomePage extends StatelessWidget {
         ),
       ];
 
-  Widget _schoolCard(String title, String subtitle) {
-    return SizedBox(
-      width: 320,
-      child: Card(
-        elevation: 6,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+Widget _schoolCard(String title, String subtitle) {
+  return Container(
+    width: 520,
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+    decoration: BoxDecoration(
+      color: const Color(0xFFEFF3F8),
+      borderRadius: BorderRadius.circular(18),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.05),
+          blurRadius: 10,
+          offset: const Offset(0, 4),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
+      ],
+    ),
+    child: Row(
+      children: [
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -274,40 +495,96 @@ class HomePage extends StatelessWidget {
                 title,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 8),
-              Text(subtitle),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF8B1E2D),
+              const SizedBox(height: 6),
+              Text(
+                subtitle,
+                style: const TextStyle(
+                  color: Colors.black54,
+                  fontSize: 14,
                 ),
-                child: const Text('Selengkapnya'),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
+        const SizedBox(width: 12),
+        ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF8B1E2D),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 12,
+            ),
+          ),
+          child: const Text('Selengkapnya'),
+        ),
+      ],
+    ),
+  );
+}
 
-  Widget _newsCard(String title) {
+//KENZIE!!! INI KUGANTI YOOO... untuk newcardnya biar data data yang kumasukin bisa nyambung :)
+
+  // ================= TUGAS PROGRAMMER 2: LOGIC & DETAIL =================
+  Widget _newsCard(BuildContext context, NewsModel news) {
     return SizedBox(
       width: 300,
       child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title,
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              // Label Kategori (Berita/Pengumuman)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: news.category == 'Pengumuman' ? Colors.red[100] : Colors.blue[100],
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  news.category,
+                  style: TextStyle(
+                    color: news.category == 'Pengumuman' ? Colors.red[800] : Colors.blue[800],
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              // Judul Berita
+              Text(
+                news.title,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 8),
+              // Tanggal
+              Text(
+                news.date,
+                style: const TextStyle(color: Colors.grey, fontSize: 12),
+              ),
               const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Selengkapnya'),
+              // Tombol Detail (Logic Detail Berita)
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => _showNewsDetail(context, news), 
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF243A5E),
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Baca Detail'),
+                ),
               ),
             ],
           ),
@@ -327,4 +604,59 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+
+// --- FUNGSI POP-UP DETAIL BERITA (TUGAS PROGRAMMER 2) ---
+  void _showNewsDetail(BuildContext context, NewsModel news) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        title: Text(news.title),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(news.date, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+            const Divider(),
+            Text(news.description),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text("Tutup")),
+        ],
+      ),
+    );
+  }
+}// <--- INI TUTUP KURUNG CLASS HOMEPAGE YANG ASLI
+
+// ================= DATA MODEL & SOURCE (LUAR CLASS) =================
+
+class NewsModel {
+  final String title;
+  final String category;
+  final String date;
+  final String description;
+
+  NewsModel({
+    required this.title,
+    required this.category,
+    required this.date,
+    required this.description,
+  });
 }
+
+final List<NewsModel> allNews = [
+  NewsModel(
+    title: "Pendaftaran Siswa Baru TA 2026/2027",
+    category: "Pengumuman",
+    date: "17 Feb 2026",
+    description: "Briseis International School membuka pendaftaran tahun ajaran baru. Tersedia beasiswa prestasi untuk jenjang SMA!",
+  ),
+  NewsModel(
+    title: "Workshop Robotik & AI di Kampus Bekasi",
+    category: "Berita",
+    date: "20 Feb 2026",
+    description: "Siswa BIS akan mendemonstrasikan hasil karya robotik mereka yang memenangkan kompetisi tingkat nasional kemarin.",
+  ),
+];
